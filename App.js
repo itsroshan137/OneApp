@@ -1,8 +1,27 @@
-import React, { Component } from 'react';
-import ListingsScreen from './app/Screens/ListingsScreen';
+import React, {useState} from 'react';
+
+import AppTextInput from './app/Components/AppTextInput';
+import Screen from './app/Components/Screen';
+import AppPicker from './app/Components/AppPicker';
+
+const categories = [
+  { label: "Furniture", value: 1},
+  { label: "Clothing", value: 2},
+  { label: "Cameras", value: 3},
+]
+
 
 export default function  App() {
+  const  [category, setCategory] = useState(categories[0]);
   return(
-      <ListingsScreen />
+    <Screen>
+      <AppPicker 
+        selectedItem = {category}
+        onSelectItem = {item => setCategory(item)}
+        items = {categories}
+        icon = "apps" 
+        placeholder = "Email"/>
+      <AppTextInput icon = "email" placeholder = "Email" />
+    </Screen>
   );
 }
