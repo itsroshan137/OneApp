@@ -1,27 +1,51 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { Button, StyleSheet, View } from 'react-native';
+import LottieView from 'lottie-react-native';
 
-import AppTextInput from './app/Components/AppTextInput';
-import Screen from './app/Components/Screen';
-import AppPicker from './app/Components/AppPicker';
+export default class App extends React.Component {
+  componentDidMount() {
+    this.animation.play();
+    // Or set a specific startFrame and endFrame with:
+    // this.animation.play(30, 120);
+  }
 
-const categories = [
-  { label: "Furniture", value: 1},
-  { label: "Clothing", value: 2},
-  { label: "Cameras", value: 3},
-]
+  resetAnimation = () => {
+    this.animation.reset();
+    this.animation.play();
+  };
 
-
-export default function  App() {
-  const  [category, setCategory] = useState(categories[0]);
-  return(
-    <Screen>
-      <AppPicker 
-        selectedItem = {category}
-        onSelectItem = {item => setCategory(item)}
-        items = {categories}
-        icon = "apps" 
-        placeholder = "Email"/>
-      <AppTextInput icon = "email" placeholder = "Email" />
-    </Screen>
-  );
+  render() {
+    return (
+      <View style={styles.animationContainer}>
+        <LottieView
+          ref={animation => {
+            this.animation = animation;
+          }}
+          style={{
+            width: 400,
+            height: 400,
+            backgroundColor: '#eee',
+          }}
+          source={require('./app/assets/cycling.json')}
+          // OR find more Lottie files @ https://lottiefiles.com/featured
+          // Just click the one you like, place that file in the 'assets' folder to the left, and replace the above 'require' statement
+        />
+        <View style={styles.buttonContainer}>
+          <Button title="Restart Animation" onPress={this.resetAnimation} />
+        </View>
+      </View>
+    );
+  }
 }
+
+const styles = StyleSheet.create({
+  animationContainer: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+  },
+  buttonContainer: {
+    paddingTop: 20,
+  },
+});
